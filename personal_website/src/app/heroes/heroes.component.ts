@@ -3,6 +3,7 @@ import { Hero } from './hero';
 import { HeroService } from '../hero.service';
 import { Subscriber } from 'rxjs';
 import { MessageService } from '../message.service';
+import { STRING_TYPE } from '@angular/compiler';
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
@@ -16,12 +17,24 @@ export class HeroesComponent {
     private messageService: MessageService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.getHeroes();
   }
 
   getHeroes(): void {
     this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes)
+  }
+
+  add(heroName: string): void {
+    heroName = heroName.trim();
+    if (!heroName) {
+      return;
+    }
+
+    this.heroService.addHero({ name: heroName } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
   }
 }
