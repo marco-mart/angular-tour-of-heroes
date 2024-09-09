@@ -37,4 +37,13 @@ export class HeroesComponent {
         this.heroes.push(hero);
       });
   }
+
+  delete(id: Number): void {
+    // Remove hero from curr heroes array
+    this.heroes = this.heroes.filter(h => h.id !== id);
+
+    // Delete hero
+    this.heroService.deleteHero(id as number)
+      .subscribe();
+  }
 }
